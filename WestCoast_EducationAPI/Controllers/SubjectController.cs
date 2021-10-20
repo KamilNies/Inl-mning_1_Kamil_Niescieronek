@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WestCoast_EducationAPI.Entities;
 using WestCoast_EducationAPI.ModelViews;
@@ -82,7 +81,7 @@ namespace WestCoast_EducationAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateSubject(int id, 
+        public async Task<IActionResult> UpdateSubject(int id,
             [FromBody] SubjectViewForUpdate model)
         {
             var subjectEntity = await unitOfWork.SubjectRepository.FindSubjectByIdAsync(id);
