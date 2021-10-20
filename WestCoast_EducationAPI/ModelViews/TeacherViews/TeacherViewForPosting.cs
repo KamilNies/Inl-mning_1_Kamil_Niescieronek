@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WestCoast_EducationAPI.ModelViews
 {
@@ -14,7 +10,5 @@ namespace WestCoast_EducationAPI.ModelViews
         public string LastName { get; set; }
         [MaxLength(100)]
         public string Email { get; set; }
-        public ICollection<CourseViewForPosting> Courses { get; set; }
-            = new List<CourseViewForPosting>();
     }
 }

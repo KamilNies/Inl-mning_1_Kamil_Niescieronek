@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using WestCoast_EducationAPI.Context;
 using WestCoast_EducationAPI.Services.Interfaces;
 using WestCoast_EducationAPI.Services.Repositories;

@@ -40,18 +40,7 @@ namespace WestCoast_EducationAPI.Controllers
                 return NotFound($"Course with identity {id} could not be found.");
             }
 
-            var course = new CourseViewToBeReturned
-            {
-                Id = courseEntity.Id,
-                Name = courseEntity.Name,
-                Price = courseEntity.Price,
-                Description = courseEntity.Description,
-                Teacher = $"{courseEntity.Teacher.FirstName.Trim()}" +
-                $" {courseEntity.Teacher.LastName.Trim()}",
-                Subject = courseEntity.Subject.Name
-            };
-
-            return Ok(course);
+            return Ok(mapper.Map<CourseViewToBeReturned>(courseEntity));
         }
 
         [HttpGet("courseName/{name}")]
@@ -65,23 +54,7 @@ namespace WestCoast_EducationAPI.Controllers
                 return NotFound($"No courses found containing: {name.Trim()}.");
             }
 
-            var courses = new List<CourseViewToBeReturned>();
-
-            foreach (var course in courseEntities)
-            {
-                courses.Add(new CourseViewToBeReturned
-                {
-                    Id = course.Id,
-                    Name = course.Name,
-                    Price = course.Price,
-                    Description = course.Description,
-                    Teacher = $"{course.Teacher.FirstName.Trim()}" +
-                    $" {course.Teacher.LastName.Trim()}",
-                    Subject = course.Subject.Name
-                });
-            }
-
-            return Ok(courses);
+            return Ok(mapper.Map<IEnumerable<CourseViewToBeReturned>>(courseEntities));
         }
 
         [HttpGet("courseSubject/{subject}")]
@@ -95,23 +68,7 @@ namespace WestCoast_EducationAPI.Controllers
                 return NotFound($"No courses found with subject matter: {subject.Trim()}.");
             }
 
-            var courses = new List<CourseViewToBeReturned>();
-
-            foreach (var course in courseEntities)
-            {
-                courses.Add(new CourseViewToBeReturned
-                {
-                    Id = course.Id,
-                    Name = course.Name,
-                    Price = course.Price,
-                    Description = course.Description,
-                    Teacher = $"{course.Teacher.FirstName.Trim()}" +
-                    $" {course.Teacher.LastName.Trim()}",
-                    Subject = course.Subject.Name
-                });
-            }
-
-            return Ok(courses);
+            return Ok(mapper.Map<IEnumerable<CourseViewToBeReturned>>(courseEntities));
         }
 
         [HttpGet("coursePrice/{price}")]
@@ -125,38 +82,21 @@ namespace WestCoast_EducationAPI.Controllers
                 return NotFound($"No courses found below the {price} price point.");
             }
 
-            var courses = new List<CourseViewToBeReturned>();
-
-            foreach (var course in courseEntities)
-            {
-                courses.Add(new CourseViewToBeReturned
-                {
-                    Id = course.Id,
-                    Name = course.Name,
-                    Price = course.Price,
-                    Description = course.Description,
-                    Teacher = $"{course.Teacher.FirstName.Trim()}" +
-                    $" {course.Teacher.LastName.Trim()}",
-                    Subject = course.Subject.Name
-                });
-            }
-
-            return Ok(courses);
+            return Ok(mapper.Map<IEnumerable<CourseViewToBeReturned>>(courseEntities));
         }
 
         [HttpPost]
         public async Task<IActionResult> AddCourse(CourseViewForPosting model)
         {
-            
             try
             {
-                var courseEntity = mapper.Map<Course>(model);
+                var courseEntity = mapper.Map<Course>(model, opt => opt.Items["repo"] = unitOfWork.CoursesContext);
 
                 if (await unitOfWork.CourseRepository.AddNewCourseAsync(courseEntity))
                 {
                     if (!await unitOfWork.CompleteAsync())
                     {
-                        return StatusCode(500, "Course could not be added.");
+                        return StatusCode(500, "Course could not be saved.");
                     }
                 }
 
@@ -171,7 +111,7 @@ namespace WestCoast_EducationAPI.Controllers
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCourse(int id, 
-            [FromBody] CourseViewForUpdate course)
+            [FromBody] CourseViewForUpdate model)
         {
             var courseEntity = await unitOfWork.CourseRepository.FindCourseByIdAsync(id);
 
@@ -180,7 +120,7 @@ namespace WestCoast_EducationAPI.Controllers
                 return NotFound($"Course with identity {id} could not be found.");
             }
 
-            mapper.Map(courseEntity, course);
+            mapper.Map(model, courseEntity);
 
             if (unitOfWork.CourseRepository.UpdateCourse(courseEntity))
             {

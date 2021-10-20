@@ -1,8 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WestCoast_EducationAPI.Profiles
 {
@@ -12,6 +8,9 @@ namespace WestCoast_EducationAPI.Profiles
         {
             CreateMap<Entities.Teacher, ModelViews.TeacherViewToBeReturned>();
             CreateMap<Entities.Teacher, ModelViews.TeacherViewToBeReturnedWithoutCourses>();
+            CreateMap<ModelViews.TeacherViewForPosting, Entities.Teacher>();
+            /*Teacher -> TeacherViewToBeReturned
+            WestCoast_EducationAPI.Entities.Teacher -> WestCoast_EducationAPI.ModelViews.TeacherViewToBeReturned*/
         }
     }
 }

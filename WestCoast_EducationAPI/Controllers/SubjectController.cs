@@ -67,7 +67,7 @@ namespace WestCoast_EducationAPI.Controllers
                 {
                     if (!await unitOfWork.CompleteAsync())
                     {
-                        return StatusCode(500, "Subject could not be added.");
+                        return StatusCode(500, "Subject could not be saved.");
                     }
                 }
 
@@ -122,7 +122,7 @@ namespace WestCoast_EducationAPI.Controllers
                 }
             }
 
-            return StatusCode(500, "Subject could not be deleted.");
+            return StatusCode(500, "Subject could not be removed.");
         }
     }
 }

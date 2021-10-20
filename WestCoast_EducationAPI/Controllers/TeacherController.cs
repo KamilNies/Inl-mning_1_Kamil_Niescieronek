@@ -107,7 +107,7 @@ namespace WestCoast_EducationAPI.Controllers
                 {
                     if (!await unitOfWork.CompleteAsync())
                     {
-                        return StatusCode(500, "Teacher could not be added.");
+                        return StatusCode(500, "Teacher could not be saved.");
                     }
                 }
 
@@ -121,17 +121,51 @@ namespace WestCoast_EducationAPI.Controllers
             }
         }
 
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> UpdateTeacher(int id, 
-        //    [FromBody] TeacherViewForUpdate model)
-        //{
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateTeacher(int id,
+            [FromBody] TeacherViewForUpdate model)
+        {
+            var teacherEntity = await unitOfWork.TeacherRepository
+                .FindTeacherByIdAsync(id, false);
 
-        //}
+            if (teacherEntity == null)
+            {
+                return NotFound($"Teacher with identity {id} could not be found.");
+            }
 
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> RemoveTeacher(int id)
-        //{
+            mapper.Map(model, teacherEntity);
 
-        //}
+            if (unitOfWork.TeacherRepository.UpdateTeacher(teacherEntity))
+            {
+                if (await unitOfWork.CompleteAsync())
+                {
+                    return NoContent();
+                }
+            }
+
+            return StatusCode(500, "Subject could not be updated.");
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> RemoveTeacher(int id)
+        {
+            var teacherEntity = await unitOfWork.TeacherRepository
+                .FindTeacherByIdAsync(id, false);
+
+            if (teacherEntity == null)
+            {
+                return NotFound($"Teacher with identity {id} could not be found.");
+            }
+
+            if (unitOfWork.TeacherRepository.RemoveTeacher(teacherEntity))
+            {
+                if (await unitOfWork.CompleteAsync())
+                {
+                    return NoContent();
+                }
+            }
+            
+            return StatusCode(500, "Teacher could not be removed");
+        }
     }
 }
