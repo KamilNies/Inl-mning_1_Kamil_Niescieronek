@@ -11,4 +11,4 @@ Inlämning senast 27/10 klockan 23:59:59
 För Godkänt
 För godkänt så vill jag att alla endpoints är implementerade med Repository Design Mönster
 För Väl Godkänt
-För att bli väl godkänd så vill jag att ni implementerar UnitOfWork Design Mönstret samt att använder AutoMapper för mappning mellan data modeller och presentations modeller..
+För att bli väl godkänd så vill jag att ni implementerar UnitOfWork Design Mönstret samt att använder AutoMapper för mappning mellan data modeller och presentations modeller.
