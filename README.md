@@ -1,4 +1,4 @@
-# Inl-mning_1_Kamil_Niescieronek
+# Inlämning_1_Kamil_Niescieronek
 API Test with 3 tables. Populated subjects table with data
 
 INLÄMNING 1
