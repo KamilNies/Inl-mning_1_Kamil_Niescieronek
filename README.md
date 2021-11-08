@@ -1,5 +1,4 @@
 # Inlämning_1_Kamil_Niescieronek
-API Test with 3 tables. Populated subjects table with data
 
 INLÄMNING 1
 För inlämning 1 vill jag att ni skapar ett webb api med ASP.NET 5.0 och i det vill jag att ni skapar olika endpoints för att kunna lägga till, lista, söka, uppdatera samt att kunna ta bort.
